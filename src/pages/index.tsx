@@ -1,11 +1,14 @@
+export const getServerSideProps = () => {
+  return { message: "Hello from the server!" };
+};
 
+type Props = {
+  message: string;
+};
 
-const HomePage = () => {
-  return (
-    <div onClick={() => console.log("hello")}>
-      Hello, Rest on the Riverside
-    </div>
-  )
-}
+const Homepage = ({ message }: Props) => {
+  console.log(message);
+  return <div onClick={() => console.log("hello")}>{message}</div>;
+};
 
-export default HomePage;
+export default Homepage;
