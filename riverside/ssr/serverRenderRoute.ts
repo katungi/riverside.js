@@ -19,8 +19,7 @@ export const serverRenderRoute =
         let { template, Page, App, props } = await pageLoader({
           // pass the url, and vite to the pageLoader function which is essentially the next step
           url,
-          vite
-
+          vite,
         });
 
         // render the component in the html
@@ -31,7 +30,7 @@ export const serverRenderRoute =
               props,
               path: req.originalUrl,
               component: Page,
-            }
+            },
           })
         );
 
@@ -52,7 +51,7 @@ export const serverRenderRoute =
         // catch errors and handle them with Vite
 
         vite.ssrFixStacktrace(e);
-        console.error(e);
+        console.error("Vite Says:" + e);
         res.status(500).end(e.message);
       }
     };

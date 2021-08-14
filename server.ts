@@ -23,7 +23,6 @@ async function createServer() {
 
   // start the server
   app.listen(3000, () => console.log("Listening on :3000"));
-
 }
 
 createServer();

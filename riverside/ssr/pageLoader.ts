@@ -14,7 +14,8 @@ type PageLoaderResult = {
   Page: any;
   App: any;
   props: any;
-}
+};
+
 
 export const pageLoader = async ({
   url,
@@ -40,9 +41,8 @@ export const pageLoader = async ({
     vite.ssrLoadModule(`/riverside/entry.tsx`),
   ]);
 
-  let props = {}
+  let props = {};
   if (getServerSideProps) props = await getServerSideProps();
 
   return { template, Page, props, App };
-
 }
