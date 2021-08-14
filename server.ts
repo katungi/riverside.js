@@ -18,6 +18,7 @@ async function createServer() {
   app.use(vite.middlewares);
 
   // when a page is requested, call our SSR method
+  // note this is a route that will intercept all requests
   app.use('*', serverRenderRoute({ vite }));
 
   // start the server
