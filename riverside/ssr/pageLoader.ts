@@ -8,14 +8,12 @@ type Props = {
   vite: ViteDevServer;
 }
 
-
 type PageLoaderResult = {
   template: string;
   Page: any;
   App: any;
   props: any;
 };
-
 
 export const pageLoader = async ({
   url,

@@ -1,30 +1,24 @@
-import { RequestHandler } from 'express-serve-static-core'
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { ViteDevServer } from 'vite'
-import { pageLoader } from './pageLoader';
+import { RequestHandler } from "express-serve-static-core";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { ViteDevServer } from "vite";
+import { pageLoader } from "./pageLoader";
 
 type Props = {
   vite: ViteDevServer;
-}
+};
 
 export const serverRenderRoute =
   ({ vite }: Props): RequestHandler =>
     async (req, res) => {
-
-      // this will be `/` or `/test` depending on the page requeste
       const url = req.originalUrl;
-
       try {
         let { template, Page, App, props } = await pageLoader({
-          // pass the url, and vite to the pageLoader function which is essentially the next step
           url,
           vite,
         });
 
-        // render the component in the html
-
-        const appHtml = await ReactDOMServer.renderToString(
+        const appHtml = ReactDOMServer.renderToString(
           React.createElement(App, {
             page: {
               props,
@@ -34,8 +28,7 @@ export const serverRenderRoute =
           })
         );
 
-        // inject the app-rendered HTML into the template.
-
+        // 5. Inject the app-rendered HTML into the template.
         const html = template
           .replace(`<!--app-html-->`, appHtml)
           .replace(
@@ -45,15 +38,16 @@ export const serverRenderRoute =
             )}</script></head>`
           );
 
-        // Send the rendered HTML back to the client
-        res.status(200).set({ "Content-Type": "text/html" }).end(html);
-      } catch (e) {
-        // catch errors and handle them with Vite
+        // 6. Send the rendered HTML back.
 
+
+        res.status(200).set({ "Content-Type": "text/html" }).end(html);
+
+      } catch (e) {
+        // If an error is caught, let vite fix the stracktrace so it maps back to
+        // your actual source code.
         vite.ssrFixStacktrace(e);
-        console.error("Vite Says:" + e);
+        console.error(e);
         res.status(500).end(e.message);
       }
     };
-
-
